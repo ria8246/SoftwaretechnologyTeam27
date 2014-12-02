@@ -8,18 +8,22 @@ int main()
 {
     KerekparKolcsonzo prog;
 
-    //prog.menu();
+    prog.menu();
 
-    std:: vector<Elojegyzes> Elojegyzesek;
+    //Datum mettol(2014,12,2);
+    //Datum meddig(2014,12,5);
+    //cout<<prog.DiffDatum(mettol,meddig);
+
+
+    //std:: vector<Elojegyzes> Elojegyzesek;
 
 
 
     //for(unsigned i = 0; i<=Elojegyzesek.size(); i++)    {
-    Elojegyzesek.push_back(Elojegyzes(0));
-     Elojegyzesek.push_back(Elojegyzes(1));
+    //Elojegyzesek.push_back(Elojegyzes());
+    //Elojegyzesek.push_back(Elojegyzes());
     //}
 
- prog.szamlazas(Elojegyzesek);
     return 0;
 }
 
