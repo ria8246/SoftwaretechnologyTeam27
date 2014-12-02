@@ -18,6 +18,8 @@ class KerekparKolcsonzo {
 private:
     string jogosultsag;
 
+    static unsigned db;
+
     std::vector< Elojegyzes > elojegyzesek;
 
     std::vector< JavitasiBeszamolo > javitasiBeszamolok;
@@ -32,9 +34,16 @@ private:
     //unsigned DiffDatum(Datum mettol, Datum meddig);
 	
 public:
+<<<<<<< HEAD
      unsigned DiffDatum(Datum mettol, Datum meddig);
+=======
+
+>>>>>>> origin/master
     //constructors
-    KerekparKolcsonzo () {}
+    KerekparKolcsonzo () {
+        jogosultsag = "";
+        db++;
+    }
 
     //methods
     void elojegyzesKeszites();
@@ -48,6 +57,10 @@ public:
     void menu();
 
     void bejelentkezes();
+
+    void kijelentkezes() {
+        jogosultsag = "";
+    }
 
     void startUp();
 

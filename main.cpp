@@ -6,6 +6,7 @@ using namespace std;
 
 int main()
 {
+<<<<<<< HEAD
     KerekparKolcsonzo prog;
 
     prog.menu();
@@ -24,6 +25,10 @@ int main()
     //Elojegyzesek.push_back(Elojegyzes());
     //}
 
+=======
+    KerekparKolcsonzo *prog = new KerekparKolcsonzo;
+    prog->startUp();
+>>>>>>> origin/master
     return 0;
 }
 
