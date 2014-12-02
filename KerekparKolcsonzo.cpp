@@ -154,22 +154,97 @@ void KerekparKolcsonzo::javitasiBeszamoloKeszites()
     javitasiBeszamolok.push_back( ujBeszamolo );
     cout<<"A beszamolo elkeszult!"<<endl;
 }
-///
+
 /// \brief KerekparKolcsonzo::szamlazas
 ///számla elkésítés
 ///Megadjuk az előjegyzések id-jait, amikből a számla el fog készülni
-void KerekparKolcsonzo::szamlazas(std:: vector<Elojegyzes>& Elojegyzesek)
-{
-    for(unsigned i = 0; i<Elojegyzesek.size(); i++)
+
+
+
+unsigned KerekparKolcsonzo::DiffDatum(Datum mettol, Datum meddig){
+   unsigned difNap = meddig.getNap() - mettol.getNap();
+   unsigned difEv =  meddig.getEv() - mettol.getEv();
+   unsigned difHonap =  meddig.getHonap() - mettol.getHonap();
+
+
+
+    return   difNap+difHonap*30+difEv*365 ;
+}
+
+
+
+void KerekparKolcsonzo::szamlazas(){
+    unsigned IDtoSearch;
+    cout<<"Adja meg a keresendo ID-t: ";
+    cin>>IDtoSearch;
+    unsigned vegosszeg =0;
+    unsigned tempEv,  tempHonap,  tempNap;
+
+    unsigned tullepesiDij =  1000; //naponta
+    unsigned karterites = 0;
+
+
+
+
+
+
+    //DiffDatum(elojegyzesek[i].getTetel(j).getMettol(), elojegyzesek[i].getTetel(j).getMeddig());
+
+    for(unsigned i = 0; i<elojegyzesek.size(); i++)
     {
-       std::cout<< Elojegyzesek[i].getID()<<std::endl;
+    //   std::cout<<   elojegyzesek[i].getID()<<std::endl;
+
+        if( elojegyzesek[i].getID() == IDtoSearch){
+            cout<<"found"<<endl;
+            for(unsigned j = 0; j<elojegyzesek[i].getTetelekSzama(); j++){
+                //visszavetel
+
+                cout<<"Adja meg a visszavetel datumat: ";
+
+                cout<<"ev: ";
+                cin>>tempEv;
+                cout<<"honap: ";
+                cin>>tempHonap;
+                 cout<<"nap: ";
+                 cin>>tempNap;
+
+
+                Datum visszavetelDatuma(tempEv,  tempHonap,  tempNap);
+
+
+              //  cout<< elojegyzesek[i].getTetel(j).getKerekpar().getKolcsonzesiDij();
+                   vegosszeg+=elojegyzesek[i].getTetel(j).getKerekpar().getKolcsonzesiDij();
+                   vegosszeg+= tullepesiDij*DiffDatum(elojegyzesek[i].getTetel(j).getMeddig(), visszavetelDatuma);
+
+
+           }
+            cout<<"Felmerult karterites osszege: ";
+            cin>>karterites;
+
+            vegosszeg+=karterites;
+        }
+
+        cout<<"vegosszeg: "<<vegosszeg;
     }
+
+
+
     
 }
 
 void KerekparKolcsonzo::menu()
 {
-    
+    cout<<"---kerekparHozzaadas-----"<<endl;
+        kerekparTarolo.kerekparHozzaadas();
+        kerekparTarolo.kerekparHozzaadas();
+
+
+    cout<<"---elojegyzesKeszites-----"<<endl;
+    elojegyzesKeszites();
+    cout<<"---berbeadas-----"<<endl;
+    berbeadas();
+    cout<<"---szamlazas-----"<<endl;
+     szamlazas();
 }
 ///
 /// \brief KerekparKolcsonzo::bejelentkezes

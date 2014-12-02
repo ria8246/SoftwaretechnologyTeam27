@@ -25,8 +25,14 @@ private:
     std::vector< HibaBejegyzes > hibaBejegyzesek;
 
     KerekparTarolo kerekparTarolo;
+
+
+    ///Private methods
+
+    //unsigned DiffDatum(Datum mettol, Datum meddig);
 	
 public:
+     unsigned DiffDatum(Datum mettol, Datum meddig);
     //constructors
     KerekparKolcsonzo () {}
 
@@ -37,7 +43,7 @@ public:
 
     void javitasiBeszamoloKeszites();
 
-    void szamlazas(std::vector<Elojegyzes> &Elojegyzesek);
+    void szamlazas();
 
     void menu();
 
