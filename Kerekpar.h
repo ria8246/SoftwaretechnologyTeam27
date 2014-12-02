@@ -23,7 +23,7 @@ private:
     string tipus;
     string marka;
     string szin;
-    unsigned ar;
+    unsigned ar;   //amennyiert a bolt vásárolta nagyker
     unsigned gyartasEve;
     string statusz;
     unsigned kolcsonzesiDij;
