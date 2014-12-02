@@ -37,7 +37,7 @@ public:
 
     void javitasiBeszamoloKeszites();
 
-    void szamlazas();
+    void szamlazas(std::vector<Elojegyzes> &Elojegyzesek);
 
     void menu();
 

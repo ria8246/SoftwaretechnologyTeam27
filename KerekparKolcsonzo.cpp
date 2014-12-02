@@ -72,7 +72,7 @@ void KerekparKolcsonzo::elojegyzesKeszites()
         Datum mettol(ev, honap, nap);
 
         cout<<"Adja meg, hogy meddig szeretne kikolcsonozni a kerekpart:"
-                    <<endl;
+           <<endl;
         cout<<"-Ev: ";
         cin>>ev;
 
@@ -154,9 +154,16 @@ void KerekparKolcsonzo::javitasiBeszamoloKeszites()
     javitasiBeszamolok.push_back( ujBeszamolo );
     cout<<"A beszamolo elkeszult!"<<endl;
 }
-
-void KerekparKolcsonzo::szamlazas()
+///
+/// \brief KerekparKolcsonzo::szamlazas
+///számla elkésítés
+///Megadjuk az előjegyzések id-jait, amikből a számla el fog készülni
+void KerekparKolcsonzo::szamlazas(std:: vector<Elojegyzes>& Elojegyzesek)
 {
+    for(unsigned i = 0; i<Elojegyzesek.size(); i++)
+    {
+       std::cout<< Elojegyzesek[i].getID()<<std::endl;
+    }
     
 }
 
@@ -164,7 +171,10 @@ void KerekparKolcsonzo::menu()
 {
     
 }
-
+///
+/// \brief KerekparKolcsonzo::bejelentkezes
+///
+///Felhasználó bejelentkezik
 void KerekparKolcsonzo::bejelentkezes()
 {
     cout<<"Kerem adja meg a felhasznalo nevet: ";
