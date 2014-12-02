@@ -18,6 +18,8 @@ class KerekparKolcsonzo {
 private:
     string jogosultsag;
 
+    static unsigned db;
+
     std::vector< Elojegyzes > elojegyzesek;
 
     std::vector< JavitasiBeszamolo > javitasiBeszamolok;
@@ -27,8 +29,12 @@ private:
     KerekparTarolo kerekparTarolo;
 	
 public:
+
     //constructors
-    KerekparKolcsonzo () {}
+    KerekparKolcsonzo () {
+        jogosultsag = "";
+        db++;
+    }
 
     //methods
     void elojegyzesKeszites();
@@ -37,11 +43,15 @@ public:
 
     void javitasiBeszamoloKeszites();
 
-    void szamlazas(std::vector<Elojegyzes> &Elojegyzesek);
+    void szamlazas();
 
     void menu();
 
     void bejelentkezes();
+
+    void kijelentkezes() {
+        jogosultsag = "";
+    }
 
     void startUp();
 

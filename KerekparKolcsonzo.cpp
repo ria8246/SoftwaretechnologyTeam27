@@ -1,6 +1,6 @@
 #include "KerekparKolcsonzo.h"
 
-
+unsigned KerekparKolcsonzo::db = 0;
 
 
 
@@ -84,6 +84,7 @@ void KerekparKolcsonzo::elojegyzesKeszites()
 
         Datum meddig(ev, honap, nap);
 
+        //*kerekpar->elojegyzesek.push_back( &ujElojegyzes ); //TODO
         ElojegyzesTetel ujtetel( mettol, meddig, kerekpar );
         ujElojegyzes.addElojegyzesTetel( ujtetel );
     }
@@ -151,6 +152,7 @@ void KerekparKolcsonzo::javitasiBeszamoloKeszites()
     }
 
     JavitasiBeszamolo ujBeszamolo ( karLeiras, javitasiKoltseg, kerekpar );
+    //*kerekpar->javitasok.push_back( &ujBeszamolo ); //TODO
     javitasiBeszamolok.push_back( ujBeszamolo );
     cout<<"A beszamolo elkeszult!"<<endl;
 }
@@ -158,23 +160,121 @@ void KerekparKolcsonzo::javitasiBeszamoloKeszites()
 /// \brief KerekparKolcsonzo::szamlazas
 ///számla elkésítés
 ///Megadjuk az előjegyzések id-jait, amikből a számla el fog készülni
-void KerekparKolcsonzo::szamlazas(std:: vector<Elojegyzes>& Elojegyzesek)
+void KerekparKolcsonzo::szamlazas()
 {
-    for(unsigned i = 0; i<Elojegyzesek.size(); i++)
-    {
-       std::cout<< Elojegyzesek[i].getID()<<std::endl;
-    }
+
     
 }
 
 void KerekparKolcsonzo::menu()
 {
-    
+    unsigned parancs;
+
+    do {
+//Admin
+        if ( jogosultsag == "ADMIN" ) {
+            cout << "-----------------------------------------------"<<endl;
+            cout << "1: Kerekpar Hozzaadas"<<endl;
+            cout << "2: Kerekpar Eltavolitas"<<endl;
+            cout << "3: Osszes Kerekpar Listazasa"<<endl;
+            cout << "4: Kijelentkezes"<<endl;
+            cout << "9: Kilepes"<<endl;
+            cout << "-----------------------------------------------"<<endl;
+            cout << "Adja meg a parancs sorszamat!: ";
+            cin >> parancs;
+
+            if ( parancs == 1 ) {
+                kerekparTarolo.kerekparHozzaadas();
+            } else if ( parancs == 2 ) {
+                kerekparTarolo.kerekparEltavolitas();
+            } else if ( parancs == 3 ) {
+                kerekparTarolo.listazas();
+            } else if ( parancs == 4 ) {
+                kijelentkezes ();
+            } else if ( parancs == 9 ) {
+                //Kilepes
+            }
+//Szerviz
+        } else if ( jogosultsag == "SZERVIZ" ) {
+            cout << "-----------------------------------------------"<<endl;
+            cout << "1: Javitasi Bezamolo Keszites"<<endl;
+            cout << "2: Javitas alatti Kerekparok Listazasa"<<endl;
+            cout << "3: Kijelentkezes"<<endl;
+            cout << "9: Kilepes"<<endl;
+            cout << "-----------------------------------------------"<<endl;
+            cout << "Adja meg a parancs sorszamat!: ";
+            cin >> parancs;
+
+            if ( parancs == 1 ) {
+                javitasiBeszamoloKeszites();
+            } else if ( parancs == 2 ) {
+                kerekparTarolo.listazas( JAVITAS_ALATT );
+            } else if ( parancs == 3 ) {
+                kijelentkezes ();
+            } else if ( parancs == 9 ) {
+                //Kilepes
+            }
+//Elado
+        } else if ( jogosultsag == "ELADO" ) {
+            cout << "-----------------------------------------------"<<endl;
+            cout << "1: Elojegyzes Keszites"<<endl;
+            cout << "2: Berbeadas"<<endl;
+            cout << "3: Elojegyzesek listazasa"<<endl;
+            cout << "4: Kibérelt Kerekparok Listazasa"<<endl;
+            cout << "5: Szamlazas"<<endl;
+            cout << "6: Kijelentkezes"<<endl;
+            cout << "9: Kilepes"<<endl;
+            cout << "-----------------------------------------------"<<endl;
+            cout << "Adja meg a parancs sorszamat!: ";
+            cin >> parancs;
+
+            if ( parancs == 1 ) {
+                elojegyzesKeszites();
+            } else if ( parancs == 2 ) {
+                berbeadas();
+            } else if ( parancs == 3 ) {
+                for ( unsigned i = 0; i < elojegyzesek.size(); i++ ) {
+                    cout<<elojegyzesek[i]<<endl;
+                }
+            } else if ( parancs == 4 ) {
+                kerekparTarolo.listazas( KI_VAN_BERELVE );
+            } else if ( parancs == 5 ) {
+                szamlazas();
+            } else if ( parancs == 6 ) {
+                kijelentkezes ();
+            } else if ( parancs == 9 ) {
+                //Kilepes
+            }
+//Vendeg
+        } else {
+            cout << "-----------------------------------------------"<<endl;
+            cout << "1: Elojegyzes Keszites"<<endl;
+            cout << "2: Berelheto Kerekparok Listazasa"<<endl;
+            cout << "3: Bejelentkezes"<<endl;
+            cout << "9: Kilepes"<<endl;
+            cout << "-----------------------------------------------"<<endl;
+            cout << "Adja meg a parancs sorszamat!: ";
+            cin >> parancs;
+
+            if ( parancs == 1 ) {
+                elojegyzesKeszites();
+            } else if ( parancs == 2 ) {
+                kerekparTarolo.listazas( ELOJEGYEZHETO );
+            } else if ( parancs == 3 ) {
+                bejelentkezes ();
+            } else if ( parancs == 9 ) {
+                //Kilepes
+            }
+        }
+    } while ( parancs != 9 );
+
 }
+
 ///
 /// \brief KerekparKolcsonzo::bejelentkezes
 ///
 ///Felhasználó bejelentkezik
+
 void KerekparKolcsonzo::bejelentkezes()
 {
     cout<<"Kerem adja meg a felhasznalo nevet: ";
@@ -204,5 +304,8 @@ void KerekparKolcsonzo::bejelentkezes()
 
 void KerekparKolcsonzo::startUp()
 {
-    
+    //beolvasas
+
+    //menu
+    menu();
 }
