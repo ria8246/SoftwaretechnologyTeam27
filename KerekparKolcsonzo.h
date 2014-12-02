@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <stdio.h>
 
 #include "Elojegyzes.h"
 #include "HibaBejegyzes.h"
@@ -60,6 +61,10 @@ public:
     }
 
     void startUp();
+	
+	void mentes();
+
+    void beolvas();
 
     //setters-getters
     string getJogosultsag() const;

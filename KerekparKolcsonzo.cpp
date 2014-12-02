@@ -373,7 +373,214 @@ void KerekparKolcsonzo::bejelentkezes()
 void KerekparKolcsonzo::startUp()
 {
     //beolvasas
+    beolvas();
 
     //menu
     menu();
+
+    //mentes
+    mentes();
 }
+
+void KerekparKolcsonzo::mentes()
+{
+
+//kerekparok
+{
+    ofstream ofs ("kerekparMain.txt");
+        ofs<< kerekparTarolo.getTaroloMeret();
+        ofs.flush();
+    ofs.close();
+}
+
+    for ( unsigned int i = 0; i < kerekparTarolo.getTaroloMeret(); i++ ) {
+
+        char result[4]; // string which will contain the number
+        sprintf ( result, "%d", i+1 ); // %d makes the result be a
+                                       //decimal integer
+
+        string mappa = "kerekpar";
+        string szamu = result;
+        string txt = ".txt";
+        string filenev = mappa + szamu + txt;
+
+        ofstream ofs ( filenev.c_str() );
+        ofs<< kerekparTarolo.getKerekpar(i);
+        ofs.close();
+    }
+
+//elojegyzesek
+{
+    ofstream ofs ("elojegyzesMain.txt");
+        ofs<< elojegyzesek.size();
+        ofs.flush();
+    ofs.close();
+}
+
+    for ( unsigned int i = 0; i < elojegyzesek.size(); i++ ) {
+
+        char result[4]; // string which will contain the number
+        sprintf ( result, "%d", i+1 ); // %d makes the result be a
+                                       //decimal integer
+
+        string mappa = "elojegyzes";
+        string szamu = result;
+        string txt = ".txt";
+        string filenev = mappa + szamu + txt;
+
+        ofstream ofs ( filenev.c_str() );
+        ofs<< elojegyzesek[i];
+        ofs.close();
+    }
+
+//javitasi beszamolok
+    {
+        ofstream ofs ("javitasiMain.txt");
+            ofs<< javitasiBeszamolok.size();
+            ofs.flush();
+        ofs.close();
+    }
+    for ( unsigned int i = 0; i < javitasiBeszamolok.size(); i++ ) {
+
+        char result[4]; // string which will contain the number
+        sprintf ( result, "%d", i+1 ); // %d makes the result be a
+                                       //decimal integer
+
+        string mappa = "javbesz";
+        string szamu = result;
+        string txt = ".txt";
+        string filenev = mappa + szamu + txt;
+
+        ofstream ofs ( filenev.c_str() );
+        ofs<< javitasiBeszamolok[i];
+        ofs.close();
+    }
+
+//hibabejegyzesek
+    {
+        ofstream ofs ("hibaMain.txt");
+            ofs<< hibaBejegyzesek.size();
+            ofs.flush();
+        ofs.close();
+    }
+    for ( unsigned int i = 0; i < hibaBejegyzesek.size(); i++ ) {
+
+        char result[4]; // string which will contain the number
+        sprintf ( result, "%d", i+1 ); // %d makes the result be a
+                                       //decimal integer
+
+        string mappa = "hiba";
+        string szamu = result;
+        string txt = ".txt";
+        string filenev = mappa + szamu + txt;
+
+        ofstream ofs ( filenev.c_str() );
+        ofs<< hibaBejegyzesek[i];
+        ofs.close();
+    }
+
+}
+
+void KerekparKolcsonzo::beolvas()
+{
+//kerekparok
+{
+        ifstream ifs ("kerekparMain.txt");
+            unsigned kerekparokSzama;
+            ifs >> kerekparokSzama;
+        ifs.close();
+
+
+    for ( unsigned i =0; i < kerekparokSzama; i++ ) {
+
+        char result[4]; // string which will contain the number
+        sprintf ( result, "%d", i+1 ); // %d makes the result be a
+                                       //decimal integer
+
+        string mappa = "kerekpar";
+        string szamu = result;
+        string txt = ".txt";
+        string filenev = mappa + szamu + txt;
+
+        ifstream ifs ( filenev.c_str() );
+        //TODO
+        ifs.close();
+    }
+}
+
+//elojegyzesek
+{
+        ifstream ifs ("elojegyzesMain.txt");
+            unsigned elojegyzesekSzama;
+            ifs >> elojegyzesekSzama;
+        ifs.close();
+
+
+    for ( unsigned i =0; i < elojegyzesekSzama; i++ ) {
+
+        char result[4]; // string which will contain the number
+        sprintf ( result, "%d", i+1 ); // %d makes the result be a
+                                       //decimal integer
+
+        string mappa = "elojegyzes";
+        string szamu = result;
+        string txt = ".txt";
+        string filenev = mappa + szamu + txt;
+
+        ifstream ifs ( filenev.c_str() );
+        //TODO
+        ifs.close();
+    }
+}
+
+//javitasi beszamolok
+{
+        ifstream ifs ("javitasiMain.txt");
+            unsigned javbeszSzama;
+            ifs >> javbeszSzama;
+        ifs.close();
+
+
+    for ( unsigned int i = 0; i < javbeszSzama; i++ ) {
+
+        char result[4]; // string which will contain the number
+        sprintf ( result, "%d", i+1 ); // %d makes the result be a
+                                       //decimal integer
+
+        string mappa = "javbesz";
+        string szamu = result;
+        string txt = ".txt";
+        string filenev = mappa + szamu + txt;
+
+        ifstream ifs ( filenev.c_str() );
+        //TODO
+        ifs.close();
+    }
+}
+
+//hiba bejegyzesek
+{
+        ifstream ifs ("hibaMain.txt");
+            unsigned hibakSzama;
+            ifs >> hibakSzama;
+        ifs.close();
+
+    for ( unsigned int i = 0; i < hibakSzama; i++ ) {
+
+        char result[4]; // string which will contain the number
+        sprintf ( result, "%d", i+1 ); // %d makes the result be a
+                                       //decimal integer
+
+        string mappa = "hiba";
+        string szamu = result;
+        string txt = ".txt";
+        string filenev = mappa + szamu + txt;
+
+        ifstream ifs ( filenev.c_str() );
+        //TODO
+        ifs.close();
+    }
+}
+
+}
+
