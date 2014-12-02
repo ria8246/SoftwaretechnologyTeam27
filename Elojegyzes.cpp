@@ -3,6 +3,17 @@
 
 unsigned Elojegyzes::db = 0;
 
+Elojegyzes::Elojegyzes(unsigned ID){
+    this->ID = ID;
+
+    db++;
+}
+
+
+
+
+
+
 
 unsigned Elojegyzes::getID() const
 {
@@ -12,6 +23,11 @@ unsigned Elojegyzes::getID() const
 void Elojegyzes::setID(const unsigned &value)
 {
     ID = value;
+}
+
+unsigned Elojegyzes::getDb()
+{
+    return db;
 }
 
 

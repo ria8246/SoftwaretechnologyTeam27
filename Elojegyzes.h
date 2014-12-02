@@ -23,6 +23,8 @@ public:
         ID = ++db;
     }
 
+    Elojegyzes(unsigned ID);
+
     Elojegyzes ( Szemely szemely ) : szemely(szemely) {
         ID = ++db;
     }
@@ -43,6 +45,8 @@ public:
     Szemely getSzemely () {
         return szemely;
     }
+
+
 
     unsigned getTetelekSzama () {
         return elojegyzesTetelek.size();
@@ -77,7 +81,11 @@ public:
 
     //setters-getters
     unsigned getID() const;
-    void setID(const unsigned &value);
+    void setID(const unsigned& value);
+
+    static unsigned getDb();
+
+
 };
 
 #endif // ELOJEGYZES_H
