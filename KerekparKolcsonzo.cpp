@@ -285,15 +285,15 @@ void KerekparKolcsonzo::bejelentkezes()
     cin >> jelszo;
 
     if ( felhasznalo == "Admin" && jelszo == "iamtheadmin" ) {
-        jogosultsag = ADMIN;
+        jogosultsag = "ADMIN";
         cout<<"Koszontjuk Admin!"<<endl;
 
     } else if ( felhasznalo == "Elado" && jelszo == "iamtheelado" ) {
-        jogosultsag = ELADO;
+        jogosultsag = "ELADO";
         cout<<"Koszontjuk Piroska neni!"<<endl;
 
     } else if ( felhasznalo == "Szerviz" && jelszo == "iamtheszerviz" ) {
-        jogosultsag = SZERVIZ;
+        jogosultsag = "SZERVIZ";
         cout<<"Koszontjuk Pista bacsi!"<<endl;
 
     } else {
