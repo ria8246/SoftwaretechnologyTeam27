@@ -160,7 +160,7 @@ void KerekparKolcsonzo::javitasiBeszamoloKeszites()
 /// \brief KerekparKolcsonzo::szamlazas
 ///számla elkésítés
 ///Megadjuk az előjegyzések id-jait, amikből a számla el fog készülni
-<<<<<<< HEAD
+
 
 
 
@@ -229,31 +229,12 @@ void KerekparKolcsonzo::szamlazas(){
 
         cout<<"vegosszeg: "<<vegosszeg;
     }
-
-
-=======
-void KerekparKolcsonzo::szamlazas()
-{
->>>>>>> origin/master
-
-    
 }
+
+
 
 void KerekparKolcsonzo::menu()
 {
-<<<<<<< HEAD
-    cout<<"---kerekparHozzaadas-----"<<endl;
-        kerekparTarolo.kerekparHozzaadas();
-        kerekparTarolo.kerekparHozzaadas();
-
-
-    cout<<"---elojegyzesKeszites-----"<<endl;
-    elojegyzesKeszites();
-    cout<<"---berbeadas-----"<<endl;
-    berbeadas();
-    cout<<"---szamlazas-----"<<endl;
-     szamlazas();
-=======
     unsigned parancs;
 
     do {
@@ -354,7 +335,7 @@ void KerekparKolcsonzo::menu()
         }
     } while ( parancs != 9 );
 
->>>>>>> origin/master
+
 }
 
 ///

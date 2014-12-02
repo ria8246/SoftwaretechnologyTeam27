@@ -34,11 +34,8 @@ private:
     //unsigned DiffDatum(Datum mettol, Datum meddig);
 	
 public:
-<<<<<<< HEAD
      unsigned DiffDatum(Datum mettol, Datum meddig);
-=======
 
->>>>>>> origin/master
     //constructors
     KerekparKolcsonzo () {
         jogosultsag = "";
