@@ -49,6 +49,12 @@ public:
         return os;
     }
 
+
+
+    Datum getMettol() const;
+    void setMettol(const Datum &value);
+    Datum getMeddig() const;
+    void setMeddig(const Datum &value);
 };
 
 #endif // ELOJEGYZESTETEL_H
