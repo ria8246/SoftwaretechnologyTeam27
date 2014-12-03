@@ -34,6 +34,8 @@ public:
 
     void listazas(string statusz = "");
 
+    void kerekparBetoltes();
+
 };
 
 #endif // KEREKPARTAROLO_H

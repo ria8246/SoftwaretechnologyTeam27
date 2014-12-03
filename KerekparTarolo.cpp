@@ -49,39 +49,94 @@ void KerekparTarolo::kerekparHozzaadas()
     cin>>leiras;
 
     Kerekpar ujkerekpar ( tipus, marka, szin, ar, gyartasEve,
-                                        kolcsonzesiDij, leiras );
+                          kolcsonzesiDij, leiras );
     kerekparok.push_back( ujkerekpar );
 
 }
+void KerekparTarolo::kerekparBetoltes(){
 
-void KerekparTarolo::listazas(string statusz )
-{
-    if ( statusz == "" ) {
-        for ( unsigned i = 0; i < kerekparok.size(); i++ ) {
-            cout<<kerekparok[i]<<endl;
+    // unsigned ID;
+    string tipus;
+    string marka;
+    string szin;
+    unsigned ar;
+    unsigned gyartasEve;
+    string statusz;
+    unsigned kolcsonzesiDij;
+    string leiras;
+
+    unsigned kerekparokSzama;
+
+    ifstream ifs ("kerekparMain.txt");
+
+    if(ifs.is_open()){
+
+        ifs >> kerekparokSzama;
+        ifs.close();
+    }else{
+        cout<< "nem sikerult a file-t megnyitni";
+    }
+
+               for ( unsigned i =0; i < kerekparokSzama; i++ ) {
+
+            char result[4]; // string which will contain the number
+            sprintf ( result, "%d", i+1 ); // %d makes the result be a
+            //decimal integer
+
+            string mappa = "kerekpar";
+            string szamu = result;
+            string txt = ".txt";
+            string filenev = mappa + szamu + txt;
+
+            ifstream ifs ( filenev.c_str() );
+            //TODO
+            // ifs>> ID;
+            ifs>> tipus;
+            ifs>> marka;
+            ifs>> szin;
+            ifs>> ar;
+            ifs>> gyartasEve;
+            ifs>> statusz;
+            ifs>> kolcsonzesiDij;
+            ifs>> leiras;
+
+
+
+            kerekparok.push_back(Kerekpar( tipus,  marka,  szin,  ar, gyartasEve,  kolcsonzesiDij,  leiras));
         }
+        ifs.close();
+    }
 
-    } else if ( statusz == ELOJEGYEZHETO ) {
-        for ( unsigned i = 0; i < kerekparok.size(); i++ ) {
-            if ( kerekparok[i].getStatusz() == ELOJEGYEZHETO ) {
+
+
+    void KerekparTarolo::listazas(string statusz )
+    {
+        if ( statusz == "" ) {
+            for ( unsigned i = 0; i < kerekparok.size(); i++ ) {
                 cout<<kerekparok[i]<<endl;
             }
-        }
 
-    } else if ( statusz == KI_VAN_BERELVE ) {
-        for ( unsigned i = 0; i < kerekparok.size(); i++ ) {
-            if ( kerekparok[i].getStatusz() == KI_VAN_BERELVE ) {
-                cout<<kerekparok[i]<<endl;
+        } else if ( statusz == ELOJEGYEZHETO ) {
+            for ( unsigned i = 0; i < kerekparok.size(); i++ ) {
+                if ( kerekparok[i].getStatusz() == ELOJEGYEZHETO ) {
+                    cout<<kerekparok[i]<<endl;
+                }
             }
-        }
 
-    } else if ( statusz == JAVITAS_ALATT ) {
-        for ( unsigned i = 0; i < kerekparok.size(); i++ ) {
-            if ( kerekparok[i].getStatusz() == JAVITAS_ALATT ) {
-                cout<<kerekparok[i]<<endl;
+        } else if ( statusz == KI_VAN_BERELVE ) {
+            for ( unsigned i = 0; i < kerekparok.size(); i++ ) {
+                if ( kerekparok[i].getStatusz() == KI_VAN_BERELVE ) {
+                    cout<<kerekparok[i]<<endl;
+                }
             }
+
+        } else if ( statusz == JAVITAS_ALATT ) {
+            for ( unsigned i = 0; i < kerekparok.size(); i++ ) {
+                if ( kerekparok[i].getStatusz() == JAVITAS_ALATT ) {
+                    cout<<kerekparok[i]<<endl;
+                }
+            }
+
         }
 
     }
-
-}
