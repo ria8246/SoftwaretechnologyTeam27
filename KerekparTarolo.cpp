@@ -44,9 +44,16 @@ void KerekparTarolo::kerekparHozzaadas()
     unsigned kolcsonzesiDij;
     cin>>kolcsonzesiDij;
 
+    //A leiras egy mondat. space-nel elrepul a progi: std::getline()
+
     cout<<"-Rovid leirasa: ";
     string leiras;
-    cin>>leiras;
+    char catchEnter;
+
+    cin>>catchEnter; //elozo parancs utani entert még el kell kapni.
+    getline (cin,leiras);
+
+    //cout<<"\n\n"<<leiras<<endl;
 
     Kerekpar ujkerekpar ( tipus, marka, szin, ar, gyartasEve,
                           kolcsonzesiDij, leiras );
