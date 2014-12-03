@@ -379,14 +379,14 @@ void KerekparKolcsonzo::startUp()
     menu();
 
     //mentes
-    mentes();
+   // mentes();
 }
 
 void KerekparKolcsonzo::mentes()
 {
 
     //kerekparok
-    {
+   /* {
         ofstream ofs ("kerekparMain.txt");
         ofs<< kerekparTarolo.getTaroloMeret();
         ofs.flush();
@@ -408,6 +408,7 @@ void KerekparKolcsonzo::mentes()
         ofs<< kerekparTarolo.getKerekpar(i);
         ofs.close();
     }
+    */
 
     //elojegyzesek
     {
@@ -487,63 +488,6 @@ void KerekparKolcsonzo::beolvas()
 
 
     kerekparTarolo.kerekparBetoltes();
-    {
-     /*   unsigned ID;
-        string tipus;
-        string marka;
-        string szin;
-        unsigned ar;   //amennyiert a bolt vásárolta nagyker
-        unsigned gyartasEve;
-        string statusz;
-        unsigned kolcsonzesiDij;
-        string leiras;
-
-
-
-
-
-
-        ifstream ifs ("kerekparMain.txt");
-        unsigned kerekparokSzama;
-        ifs >> kerekparokSzama;
-        ifs.close();
-
-
-        for ( unsigned i =0; i < kerekparokSzama; i++ ) {
-
-            char result[4]; // string which will contain the number
-            sprintf ( result, "%d", i+1 ); // %d makes the result be a
-            //decimal integer
-
-            string mappa = "kerekpar";
-            string szamu = result;
-            string txt = ".txt";
-            string filenev = mappa + szamu + txt;
-
-            ifstream ifs ( filenev.c_str() );
-            //TODO
-           // ifs>> ID;
-            ifs>> tipus;
-            ifs>> marka;
-            ifs>> szin;
-            ifs>> ar;
-            ifs>> gyartasEve;
-            ifs>> statusz;
-            ifs>> kolcsonzesiDij;
-            ifs>> leiras;
-
-         //   ;
-
-            KerekparTarolo->kerekparok.push_back(Kerekpar( tipus,  marka,  szin,  ar, gyartasEve,  kolcsonzesiDij,  leiras));
-
-            //KerekparTarolo.kerekparHozzaadas();
-
-            ifs.close();
-        }
-
-        */
-    }
-
     //elojegyzesek
     {
         ifstream ifs ("elojegyzesMain.txt");

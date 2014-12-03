@@ -35,6 +35,7 @@ public:
     void listazas(string statusz = "");
 
     void kerekparBetoltes();
+    void kerekparMentes();
 
 };
 
