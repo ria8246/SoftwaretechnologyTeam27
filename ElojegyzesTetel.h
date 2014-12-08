@@ -26,7 +26,7 @@ public:
     }
 
     //methods
-    Kerekpar getKerekpar() {
+    Kerekpar & getKerekpar() {
         return *kerekpar;
     }
 
@@ -34,24 +34,24 @@ public:
     friend ofstream& operator <<(ofstream& ofs,
                                  const ElojegyzesTetel &elojegyzestetel) {
 
-        ofs<< elojegyzestetel.kerekpar->getID() <<" "<<
-             elojegyzestetel.mettol<<" "<<
-             elojegyzestetel.meddig;
+        ofs<< elojegyzestetel.kerekpar->getID() <<endl<<
+             elojegyzestetel.mettol<<endl<<
+             elojegyzestetel.meddig<<endl;
         return ofs;
     }
 
     friend ostream& operator <<(ostream& os,
                                  const ElojegyzesTetel &elojegyzestetel) {
 
-        os<<"Kerekpar ID: "<< elojegyzestetel.kerekpar->getID() <<" "<<
-             elojegyzestetel.mettol<<" "<<
+        os<<"Kerekpar ID: "<< elojegyzestetel.kerekpar->getID() <<" | "<<
+             elojegyzestetel.mettol<<" | "<<
              elojegyzestetel.meddig;
         return os;
     }
 
-
-
-    Datum getMettol() const;
+	
+	//getters-setters
+	Datum getMettol() const;
     void setMettol(const Datum &value);
     Datum getMeddig() const;
     void setMeddig(const Datum &value);

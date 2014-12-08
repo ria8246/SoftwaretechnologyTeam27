@@ -27,14 +27,14 @@ public:
 
     //operators
     friend ofstream& operator <<(ofstream& ofs, const Szemely &szemely) {
-        ofs<<szemely.vezetekNev<<" "<<szemely.keresztNev<<
-             szemely.szuletesiDatum<<" "<<szemely.telefonszam;
+        ofs<<szemely.vezetekNev<<" "<<szemely.keresztNev<<endl<<
+             szemely.szuletesiDatum<<endl<<szemely.telefonszam;
         return ofs;
     }
 
     friend ostream& operator <<(ostream& os, const Szemely &szemely) {
-        os<<szemely.vezetekNev<<" "<<szemely.keresztNev<<
-             szemely.szuletesiDatum<<" "<<szemely.telefonszam;
+        os<<szemely.vezetekNev<<" "<<szemely.keresztNev<<" "<<
+            szemely.szuletesiDatum<<" "<<szemely.telefonszam;
         return os;
     }
 

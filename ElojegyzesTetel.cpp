@@ -1,7 +1,6 @@
 #include "ElojegyzesTetel.h"
 
 
-
 Datum ElojegyzesTetel::getMeddig() const
 {
     return meddig;

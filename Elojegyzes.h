@@ -23,19 +23,10 @@ public:
         ID = ++db;
     }
 
-    Elojegyzes(unsigned ID);
-
     Elojegyzes ( Szemely szemely ) : szemely(szemely) {
         ID = ++db;
     }
 
-//Ellenorizni !!!!!!!!!!!!!
-//    Elojegyzes ( vector< ElojegyzesTetel > elojegyTetelek ){
-//        ID = ++db;
-//        for ( unsigned i = 0; i < elojegyTetelek.size(); i++ ) {
-//            elojegyzesTetelek.push_back( elojegyTetelek[i] );
-//        }
-//    }
 
     //methods
     void addElojegyzesTetel ( ElojegyzesTetel & ujtetel ) {
@@ -46,13 +37,15 @@ public:
         return szemely;
     }
 
-
-
     unsigned getTetelekSzama () {
         return elojegyzesTetelek.size();
     }
 
-    ElojegyzesTetel getTetel ( unsigned index ) {
+    unsigned getTetelekSzama () const {
+        return elojegyzesTetelek.size();
+    }
+
+    ElojegyzesTetel & getTetel ( unsigned index ) {
         return elojegyzesTetelek[index];
     }
 
@@ -62,6 +55,7 @@ public:
 
         ofs<<elojegyzes.ID<<endl;
         ofs<<elojegyzes.szemely<<endl;
+        ofs<<elojegyzes.getTetelekSzama()<<endl;
         for (unsigned i = 0; i < elojegyzes.elojegyzesTetelek.size(); i++ ) {
             ofs<<elojegyzes.elojegyzesTetelek[i]<<endl;
         }

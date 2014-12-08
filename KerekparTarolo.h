@@ -24,6 +24,10 @@ public:
         return kerekparok[index];
     }
 
+    void addKerekpar ( Kerekpar kerekpar ) {
+        kerekparok.push_back( kerekpar );
+    }
+
     unsigned getTaroloMeret () {
         return kerekparok.size();
     }
@@ -33,9 +37,10 @@ public:
     void kerekparHozzaadas();
 
     void listazas(string statusz = "");
-
-    void kerekparBetoltes();
-    void kerekparMentes();
+	
+	void kerekparMentes();
+	
+    //void kerekparBetoltes();
 
 };
 

@@ -1,8 +1,9 @@
-sport
-bmx
+1
+hegyi
+Mountainbike
 piros
-2000
-2003
-berelheto
-1000
-klassz kerekpar
+15000
+2013
+elojegyezheto
+1500
+Nagyon jo hegyre

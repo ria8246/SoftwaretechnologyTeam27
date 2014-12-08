@@ -1,7 +1,5 @@
 #include "KerekparKolcsonzo.h"
 
-unsigned KerekparKolcsonzo::db = 0;
-
 
 
 string KerekparKolcsonzo::getJogosultsag() const
@@ -13,6 +11,7 @@ void KerekparKolcsonzo::setJogosultsag(const string &value)
 {
     jogosultsag = value;
 }
+
 
 void KerekparKolcsonzo::elojegyzesKeszites()
 {
@@ -28,7 +27,8 @@ void KerekparKolcsonzo::elojegyzesKeszites()
 
     cout<<"-Szuletesi datuma: ";
     string szuletesiDatum;
-    cin>>szuletesiDatum;
+    getline (cin, szuletesiDatum);
+    getline (cin, szuletesiDatum);
 
     cout<<"-Telefonszama: ";
     string telefonszam;
@@ -44,7 +44,10 @@ void KerekparKolcsonzo::elojegyzesKeszites()
     cin>>kerekparokszama;
 
     for ( unsigned i = 0; i < kerekparokszama; i++ ) {
+        cout<<"------------------------------------"<<endl;
         kerekparTarolo.listazas( ELOJEGYEZHETO );
+        cout<<"------------------------------------"<<endl;
+
         cout<<"Valassza ki a(z) "<< i+1 <<"-ik kerekpart (ID): ";
         unsigned id;
         cin>>id;
@@ -93,6 +96,7 @@ void KerekparKolcsonzo::elojegyzesKeszites()
     cout<<"Az elojegyzes sikerult!"<<endl;
 }
 
+
 void KerekparKolcsonzo::berbeadas()
 {
     cout<<"Kerem adja meg, hogy ki tette meg az elojegyzest:"<<endl;
@@ -128,6 +132,7 @@ void KerekparKolcsonzo::berbeadas()
 
 }
 
+
 void KerekparKolcsonzo::javitasiBeszamoloKeszites()
 {
     kerekparTarolo.listazas( JAVITAS_ALATT );
@@ -137,7 +142,8 @@ void KerekparKolcsonzo::javitasiBeszamoloKeszites()
 
     cout<<"Adja meg a karnak a rovid leirasat: ";
     string karLeiras;
-    cin>>karLeiras;
+    getline (cin, karLeiras);
+    getline (cin, karLeiras);
 
     cout<<"Adja meg a javitas koltseget: ";
     unsigned javitasiKoltseg;
@@ -157,80 +163,89 @@ void KerekparKolcsonzo::javitasiBeszamoloKeszites()
     cout<<"A beszamolo elkeszult!"<<endl;
 }
 
-/// \brief KerekparKolcsonzo::szamlazas
-///számla elkésítés
-///Megadjuk az előjegyzések id-jait, amikből a számla el fog készülni
 
+unsigned KerekparKolcsonzo::tulLepes(Datum elso, Datum masodik){
+    unsigned tullepes = 0;
 
+    if ( elso < masodik ) {
+        Datum tmpelso = elso;
+        Datum tmpmaso = masodik;
 
-
-unsigned KerekparKolcsonzo::DiffDatum(Datum mettol, Datum meddig){
-    unsigned difNap = meddig.getNap() - mettol.getNap();
-    unsigned difEv =  meddig.getEv() - mettol.getEv();
-    unsigned difHonap =  meddig.getHonap() - mettol.getHonap();
-
-
-
-    return   difNap+difHonap*30+difEv*365 ;
+        while ( tmpelso != tmpmaso ) {
+            ++tmpelso;
+            tullepes++;
+        }
+    }
+    return tullepes;
 }
 
 
-
-void KerekparKolcsonzo::szamlazas(){
-    unsigned IDtoSearch;
-    cout<<"Adja meg a keresendo ID-t: ";
+void KerekparKolcsonzo::szamlazas()
+{
+	unsigned IDtoSearch;
+    cout<<"Adja meg az elojegyzes ID-at: ";
     cin>>IDtoSearch;
-    unsigned vegosszeg =0;
+	
+	unsigned vegosszeg =0;
+
     unsigned tempEv,  tempHonap,  tempNap;
-
-    unsigned tullepesiDij =  1000; //naponta
+    unsigned tullepesiDij = 1000; //naponta
     unsigned karterites = 0;
-
-
-
-
-
-
-    //DiffDatum(elojegyzesek[i].getTetel(j).getMettol(), elojegyzesek[i].getTetel(j).getMeddig());
-
-    for(unsigned i = 0; i<elojegyzesek.size(); i++)
-    {
-        //   std::cout<<   elojegyzesek[i].getID()<<std::endl;
+	
+	for(unsigned i = 0; i<elojegyzesek.size(); i++) {
 
         if( elojegyzesek[i].getID() == IDtoSearch){
-            cout<<"found"<<endl;
-            for(unsigned j = 0; j<elojegyzesek[i].getTetelekSzama(); j++){
-                //visszavetel
 
-                cout<<"Adja meg a visszavetel datumat: ";
+            cout<< elojegyzesek[i].getSzemely() <<endl;
 
-                cout<<"ev: ";
+            for(unsigned j = 0; j<elojegyzesek[i].getTetelekSzama(); j++) {
+
+                cout<<elojegyzesek[i].getTetel(j)<<endl;
+
+                cout<<"Adja meg a visszavetel datumat: "<<endl;
+                cout<<"-Ev: ";
                 cin>>tempEv;
-                cout<<"honap: ";
+
+                cout<<"-Honap: ";
                 cin>>tempHonap;
-                cout<<"nap: ";
+
+                cout<<"-Nap: ";
                 cin>>tempNap;
 
+                Datum visszavetelDatuma(tempEv, tempHonap, tempNap);
 
-                Datum visszavetelDatuma(tempEv,  tempHonap,  tempNap);
+                //kolcsonzesi dij * eltelt napok szama
+                vegosszeg+=elojegyzesek[i].getTetel(j).getKerekpar()
+                                    .getKolcsonzesiDij()*
+                        tulLepes(elojegyzesek[i].getTetel(j).getMettol(),
+                                 elojegyzesek[i].getTetel(j).getMeddig() );
 
+                //tullepesi dij * tullepett napok szama
+                vegosszeg+=tullepesiDij*
+                        tulLepes(elojegyzesek[i].getTetel(j).getMeddig(),
+                                                    visszavetelDatuma);
 
-                //  cout<< elojegyzesek[i].getTetel(j).getKerekpar().getKolcsonzesiDij();
-                vegosszeg+=elojegyzesek[i].getTetel(j).getKerekpar().getKolcsonzesiDij();
-                vegosszeg+= tullepesiDij*DiffDatum(elojegyzesek[i].getTetel(j).getMeddig(), visszavetelDatuma);
+                cout<<"Felmerult karterites osszege: ";
+                cin>>karterites;
+                vegosszeg+=karterites;
 
+                if ( karterites == 0 ) {
+                    elojegyzesek[i].getTetel(j).getKerekpar().setStatusz(
+                                                          ELOJEGYEZHETO );
+                } else {
+                    elojegyzesek[i].getTetel(j).getKerekpar().setStatusz(
+                                                          JAVITAS_ALATT );
+                }
 
             }
-            cout<<"Felmerult karterites osszege: ";
-            cin>>karterites;
 
-            vegosszeg+=karterites;
         }
 
-        cout<<"vegosszeg: "<<vegosszeg;
-    }
+        cout<<"Vegosszeg: "<< vegosszeg << endl;
+		
+	}
+	  
 }
-
 
 
 void KerekparKolcsonzo::menu()
@@ -238,7 +253,7 @@ void KerekparKolcsonzo::menu()
     unsigned parancs;
 
     do {
-        //Admin
+//Admin
         if ( jogosultsag == "ADMIN" ) {
             cout << "-----------------------------------------------"<<endl;
             cout << "1: Kerekpar Hozzaadas"<<endl;
@@ -261,7 +276,7 @@ void KerekparKolcsonzo::menu()
             } else if ( parancs == 9 ) {
                 //Kilepes
             }
-            //Szerviz
+//Szerviz
         } else if ( jogosultsag == "SZERVIZ" ) {
             cout << "-----------------------------------------------"<<endl;
             cout << "1: Javitasi Bezamolo Keszites"<<endl;
@@ -281,7 +296,7 @@ void KerekparKolcsonzo::menu()
             } else if ( parancs == 9 ) {
                 //Kilepes
             }
-            //Elado
+//Elado
         } else if ( jogosultsag == "ELADO" ) {
             cout << "-----------------------------------------------"<<endl;
             cout << "1: Elojegyzes Keszites"<<endl;
@@ -312,7 +327,7 @@ void KerekparKolcsonzo::menu()
             } else if ( parancs == 9 ) {
                 //Kilepes
             }
-            //Vendeg
+//Vendeg
         } else {
             cout << "-----------------------------------------------"<<endl;
             cout << "1: Elojegyzes Keszites"<<endl;
@@ -335,13 +350,8 @@ void KerekparKolcsonzo::menu()
         }
     } while ( parancs != 9 );
 
-
 }
 
-///
-/// \brief KerekparKolcsonzo::bejelentkezes
-///
-///Felhasználó bejelentkezik
 
 void KerekparKolcsonzo::bejelentkezes()
 {
@@ -370,6 +380,7 @@ void KerekparKolcsonzo::bejelentkezes()
     }
 }
 
+
 void KerekparKolcsonzo::startUp()
 {
     //beolvasas
@@ -379,25 +390,27 @@ void KerekparKolcsonzo::startUp()
     menu();
 
     //mentes
-   // mentes();
+    mentes();
 }
+
 
 void KerekparKolcsonzo::mentes()
 {
 
-    //kerekparok
-   /* {
-        ofstream ofs ("kerekparMain.txt");
+//kerekparok
+
+{
+    ofstream ofs ("kerekparMain.txt");
         ofs<< kerekparTarolo.getTaroloMeret();
         ofs.flush();
-        ofs.close();
-    }
+    ofs.close();
+}
 
     for ( unsigned int i = 0; i < kerekparTarolo.getTaroloMeret(); i++ ) {
 
         char result[4]; // string which will contain the number
         sprintf ( result, "%d", i+1 ); // %d makes the result be a
-        //decimal integer
+                                       //decimal integer
 
         string mappa = "kerekpar";
         string szamu = result;
@@ -408,21 +421,20 @@ void KerekparKolcsonzo::mentes()
         ofs<< kerekparTarolo.getKerekpar(i);
         ofs.close();
     }
-    */
 
-    //elojegyzesek
-    {
-        ofstream ofs ("elojegyzesMain.txt");
+//elojegyzesek
+{
+    ofstream ofs ("elojegyzesMain.txt");
         ofs<< elojegyzesek.size();
         ofs.flush();
-        ofs.close();
-    }
+    ofs.close();
+}
 
     for ( unsigned int i = 0; i < elojegyzesek.size(); i++ ) {
 
         char result[4]; // string which will contain the number
         sprintf ( result, "%d", i+1 ); // %d makes the result be a
-        //decimal integer
+                                       //decimal integer
 
         string mappa = "elojegyzes";
         string szamu = result;
@@ -434,18 +446,18 @@ void KerekparKolcsonzo::mentes()
         ofs.close();
     }
 
-    //javitasi beszamolok
+//javitasi beszamolok
     {
         ofstream ofs ("javitasiMain.txt");
-        ofs<< javitasiBeszamolok.size();
-        ofs.flush();
+            ofs<< javitasiBeszamolok.size();
+            ofs.flush();
         ofs.close();
     }
     for ( unsigned int i = 0; i < javitasiBeszamolok.size(); i++ ) {
 
         char result[4]; // string which will contain the number
         sprintf ( result, "%d", i+1 ); // %d makes the result be a
-        //decimal integer
+                                       //decimal integer
 
         string mappa = "javbesz";
         string szamu = result;
@@ -457,18 +469,18 @@ void KerekparKolcsonzo::mentes()
         ofs.close();
     }
 
-    //hibabejegyzesek
+//hibabejegyzesek
     {
         ofstream ofs ("hibaMain.txt");
-        ofs<< hibaBejegyzesek.size();
-        ofs.flush();
+            ofs<< hibaBejegyzesek.size();
+            ofs.flush();
         ofs.close();
     }
     for ( unsigned int i = 0; i < hibaBejegyzesek.size(); i++ ) {
 
         char result[4]; // string which will contain the number
         sprintf ( result, "%d", i+1 ); // %d makes the result be a
-        //decimal integer
+                                       //decimal integer
 
         string mappa = "hiba";
         string szamu = result;
@@ -482,85 +494,273 @@ void KerekparKolcsonzo::mentes()
 
 }
 
+
+
+
+
 void KerekparKolcsonzo::beolvas()
 {
-    //kerekparok
-
-
-    kerekparTarolo.kerekparBetoltes();
-    //elojegyzesek
-    {
-        ifstream ifs ("elojegyzesMain.txt");
-        unsigned elojegyzesekSzama;
-        ifs >> elojegyzesekSzama;
+//kerekparok
+{
+        ifstream ifs ("kerekparMain.txt");
+            unsigned kerekparokSzama;
+            ifs >> kerekparokSzama;
         ifs.close();
 
 
-        for ( unsigned i =0; i < elojegyzesekSzama; i++ ) {
+    for ( unsigned i =0; i < kerekparokSzama; i++ ) {
 
-            char result[4]; // string which will contain the number
-            sprintf ( result, "%d", i+1 ); // %d makes the result be a
-            //decimal integer
+        char result[4]; // string which will contain the number
+        sprintf ( result, "%d", i+1 ); // %d makes the result be a
+                                       //decimal integer
 
-            string mappa = "elojegyzes";
-            string szamu = result;
-            string txt = ".txt";
-            string filenev = mappa + szamu + txt;
+        string mappa = "kerekpar";
+        string szamu = result;
+        string txt = ".txt";
+        string filenev = mappa + szamu + txt;
 
-            ifstream ifs ( filenev.c_str() );
-            //TODO
-            ifs.close();
+        ifstream ifs ( filenev.c_str() );
+
+        if ( ifs.is_open() ) {
+            unsigned ID;
+            ifs>> ID;
+
+            string tipus;
+            ifs>> tipus;
+
+            string marka;
+            ifs>> marka;
+
+            string szin;
+            ifs>> szin;
+
+            unsigned ar;
+            ifs>> ar;
+
+            unsigned gyartasEve;
+            ifs>> gyartasEve;
+
+            string statusz;
+            ifs>> statusz;
+
+            unsigned kolcsonzesiDij;
+            ifs>> kolcsonzesiDij;
+
+            string leiras;
+            //char catchEnter;
+            //ifs>>catchEnter;
+                            //elozo parancs utani entert még el kell kapni.
+            getline (ifs, leiras);
+            getline (ifs, leiras);
+
+
+            Kerekpar ujkerekpar ( tipus, marka, szin, ar, gyartasEve,
+                                  kolcsonzesiDij, leiras);
+            ujkerekpar.setStatusz( statusz );
+            ujkerekpar.setID( ID );
+
+            kerekparTarolo.addKerekpar( ujkerekpar );
+        } else {
+            cout << filenev.c_str() << " nevu fajlt nem tudtuk megnyitni!"
+                    <<endl;
         }
-    }
 
-    //javitasi beszamolok
-    {
-        ifstream ifs ("javitasiMain.txt");
-        unsigned javbeszSzama;
-        ifs >> javbeszSzama;
         ifs.close();
-
-
-        for ( unsigned int i = 0; i < javbeszSzama; i++ ) {
-
-            char result[4]; // string which will contain the number
-            sprintf ( result, "%d", i+1 ); // %d makes the result be a
-            //decimal integer
-
-            string mappa = "javbesz";
-            string szamu = result;
-            string txt = ".txt";
-            string filenev = mappa + szamu + txt;
-
-            ifstream ifs ( filenev.c_str() );
-            //TODO
-            ifs.close();
-        }
     }
-
-    //hiba bejegyzesek
-    {
-        ifstream ifs ("hibaMain.txt");
-        unsigned hibakSzama;
-        ifs >> hibakSzama;
-        ifs.close();
-
-        for ( unsigned int i = 0; i < hibakSzama; i++ ) {
-
-            char result[4]; // string which will contain the number
-            sprintf ( result, "%d", i+1 ); // %d makes the result be a
-            //decimal integer
-
-            string mappa = "hiba";
-            string szamu = result;
-            string txt = ".txt";
-            string filenev = mappa + szamu + txt;
-
-            ifstream ifs ( filenev.c_str() );
-            //TODO
-            ifs.close();
-        }
-    }
-
 }
 
+//elojegyzesek
+{
+        ifstream ifs ("elojegyzesMain.txt");
+            unsigned elojegyzesekSzama;
+            ifs >> elojegyzesekSzama;
+        ifs.close();
+
+
+    for ( unsigned i =0; i < elojegyzesekSzama; i++ ) {
+
+        char result[4]; // string which will contain the number
+        sprintf ( result, "%d", i+1 ); // %d makes the result be a
+                                       //decimal integer
+
+        string mappa = "elojegyzes";
+        string szamu = result;
+        string txt = ".txt";
+        string filenev = mappa + szamu + txt;
+
+        ifstream ifs ( filenev.c_str() );
+
+        if ( ifs.is_open() ) {
+
+            unsigned elojegyzesID;
+            ifs>> elojegyzesID;
+
+            string vezetekNev;
+            ifs>> vezetekNev;
+
+            string keresztNev;
+            ifs>> keresztNev;
+
+            string szuletesiDatum;
+            //char catchEnter;
+            //ifs>>catchEnter;
+                            //elozo parancs utani entert még el kell kapni.
+            getline (ifs, szuletesiDatum );
+            getline (ifs, szuletesiDatum );
+
+            string telefonszam;
+            ifs>> telefonszam;
+
+            Szemely szemely ( vezetekNev, keresztNev, szuletesiDatum,
+                              telefonszam );
+
+            Elojegyzes elojegyzes ( szemely );
+            elojegyzes.setID( elojegyzesID );
+
+            unsigned tetelekSzama;
+            ifs>> tetelekSzama;
+            for ( i=0; i < tetelekSzama; i++ ) {
+
+                unsigned kerekparID;
+                ifs>> kerekparID;
+
+                Kerekpar * kerekpar;
+
+                for ( unsigned i=0; i<kerekparTarolo.getTaroloMeret(); i++){
+                    if ( kerekparTarolo.getKerekpar(i).getID() ==
+                                                              kerekparID ) {
+                        kerekpar = &( kerekparTarolo.getKerekpar(i) );
+                    }
+                }
+
+                unsigned ev;
+                ifs>> ev;
+
+                unsigned honap;
+                ifs>> honap;
+
+                unsigned nap;
+                ifs>> nap;
+
+                Datum mettol ( ev, honap, nap );
+
+                ifs>> ev;
+
+                ifs>> honap;
+
+                ifs>> nap;
+
+                Datum meddig ( ev, honap, nap );
+
+                ElojegyzesTetel elojegyTetel ( mettol, meddig, kerekpar );
+
+                elojegyzes.addElojegyzesTetel( elojegyTetel );
+
+            }
+            elojegyzesek.push_back( elojegyzes );
+
+        } else {
+            cout << filenev.c_str() << " nevu fajlt nem tudtuk megnyitni!"
+                    <<endl;
+        }
+
+
+        ifs.close();
+    }
+}
+
+//javitasi beszamolok
+{
+        ifstream ifs ("javitasiMain.txt");
+            unsigned javbeszSzama;
+            ifs >> javbeszSzama;
+        ifs.close();
+
+
+    for ( unsigned int i = 0; i < javbeszSzama; i++ ) {
+
+        char result[4]; // string which will contain the number
+        sprintf ( result, "%d", i+1 ); // %d makes the result be a
+                                       //decimal integer
+
+        string mappa = "javbesz";
+        string szamu = result;
+        string txt = ".txt";
+        string filenev = mappa + szamu + txt;
+
+        ifstream ifs ( filenev.c_str() );
+
+        if ( ifs.is_open() ) {
+            unsigned javitasiKoltseg;
+            ifs>> javitasiKoltseg;
+
+            unsigned kerekparID;
+            ifs>> kerekparID;
+
+            string karLeiras;
+            //char catchEnter;
+            //ifs>>catchEnter;
+                            //elozo parancs utani entert még el kell kapni.
+            getline (ifs,karLeiras);
+            getline (ifs,karLeiras);
+
+            Kerekpar * kerekpar;
+
+            for ( unsigned i = 0; i < kerekparTarolo.getTaroloMeret(); i++ ){
+                if ( kerekparTarolo.getKerekpar(i).getID() == kerekparID ) {
+                    kerekpar = &( kerekparTarolo.getKerekpar(i) );
+                }
+            }
+
+            JavitasiBeszamolo javbesz(karLeiras, javitasiKoltseg, kerekpar);
+
+            javitasiBeszamolok.push_back( javbesz );
+        } else {
+            cout << filenev.c_str() << " nevu fajlt nem tudtuk megnyitni!"
+                    <<endl;
+        }
+
+        ifs.close();
+    }
+}
+
+//hiba bejegyzesek
+{
+        ifstream ifs ("hibaMain.txt");
+            unsigned hibakSzama;
+            ifs >> hibakSzama;
+        ifs.close();
+
+    for ( unsigned int i = 0; i < hibakSzama; i++ ) {
+
+        char result[4]; // string which will contain the number
+        sprintf ( result, "%d", i+1 ); // %d makes the result be a
+                                       //decimal integer
+
+        string mappa = "hiba";
+        string szamu = result;
+        string txt = ".txt";
+        string filenev = mappa + szamu + txt;
+
+        ifstream ifs ( filenev.c_str() );
+
+        if ( ifs.is_open() ) {
+            string hibauzenet;
+            //char catchEnter;
+            //ifs>>catchEnter;
+                            //elozo parancs utani entert még el kell kapni.
+            getline (ifs,hibauzenet);
+            getline (ifs,hibauzenet);
+
+            HibaBejegyzes hiba ( hibauzenet );
+            hibaBejegyzesek.push_back( hiba );
+        } else {
+            cout << filenev.c_str() << " nevu fajlt nem tudtuk megnyitni!"
+                    <<endl;
+        }
+
+        ifs.close();
+    }
+}
+
+}
