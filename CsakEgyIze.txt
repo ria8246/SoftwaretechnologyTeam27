@@ -1,0 +1,2 @@
+Ez csak egy izé.
+push-pull, stb teszt.
